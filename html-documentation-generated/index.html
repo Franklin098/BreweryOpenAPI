@@ -1,0 +1,1013 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Brewery Project</title>
+    <style type="text/css">
+      body {
+      	font-family: Trebuchet MS, sans-serif;
+      	font-size: 15px;
+      	color: #444;
+      	margin-right: 24px;
+      }
+      
+      h1	{
+      	font-size: 25px;
+      }
+      h2	{
+      	font-size: 20px;
+      }
+      h3	{
+      	font-size: 16px;
+      	font-weight: bold;
+      }
+      hr	{
+      	height: 1px;
+      	border: 0;
+      	color: #ddd;
+      	background-color: #ddd;
+      }
+      
+      .app-desc {
+        clear: both;
+        margin-left: 20px;
+      }
+      .param-name {
+        width: 100%;
+      }
+      .license-info {
+        margin-left: 20px;
+      }
+      
+      .license-url {
+        margin-left: 20px;
+      }
+      
+      .model {
+        margin: 0 0 0px 20px;
+      }
+      
+      .method {
+        margin-left: 20px;
+      }
+      
+      .method-notes	{
+      	margin: 10px 0 20px 0;
+      	font-size: 90%;
+      	color: #555;
+      }
+      
+      pre {
+        padding: 10px;
+        margin-bottom: 2px;
+      }
+      
+      .http-method {
+       text-transform: uppercase;
+      }
+      
+      pre.get {
+        background-color: #0f6ab4;
+      }
+      
+      pre.post {
+        background-color: #10a54a;
+      }
+      
+      pre.put {
+        background-color: #c5862b;
+      }
+      
+      pre.delete {
+        background-color: #a41e22;
+      }
+      
+      .huge	{
+      	color: #fff;
+      }
+      
+      pre.example {
+        background-color: #f3f3f3;
+        padding: 10px;
+        border: 1px solid #ddd;
+      }
+      
+      code {
+        white-space: pre;
+      }
+      
+      .nickname {
+        font-weight: bold;
+      }
+      
+      .method-path {
+        font-size: 1.5em;
+        background-color: #0f6ab4;
+      }
+      
+      .up {
+        float:right;
+      }
+      
+      .parameter {
+        width: 500px;
+      }
+      
+      .param {
+        width: 500px;
+        padding: 10px 0 0 20px;
+        font-weight: bold;
+      }
+      
+      .param-desc {
+        width: 700px;
+        padding: 0 0 0 20px;
+        color: #777;
+      }
+      
+      .param-type {
+        font-style: italic;
+      }
+      
+      .param-enum-header {
+      width: 700px;
+      padding: 0 0 0 60px;
+      color: #777;
+      font-weight: bold;
+      }
+      
+      .param-enum {
+      width: 700px;
+      padding: 0 0 0 80px;
+      color: #777;
+      font-style: italic;
+      }
+      
+      .field-label {
+        padding: 0;
+        margin: 0;
+        clear: both;
+      }
+      
+      .field-items	{
+      	padding: 0 0 15px 0;
+      	margin-bottom: 15px;
+      }
+      
+      .return-type {
+        clear: both;
+        padding-bottom: 10px;
+      }
+      
+      .param-header {
+        font-weight: bold;
+      }
+      
+      .method-tags {
+        text-align: right;
+      }
+      
+      .method-tag {
+        background: none repeat scroll 0% 0% #24A600;
+        border-radius: 3px;
+        padding: 2px 10px;
+        margin: 2px;
+        color: #FFF;
+        display: inline-block;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+  <h1>Brewery Project</h1>
+    <div class="app-desc">Specification for OpenAPI Course</div>
+    <div class="app-desc">More information: <a href="https://github.com/Franklin098">https://github.com/Franklin098</a></div>
+    <div class="app-desc">Contact Info: <a href="hello@helloreverb.com">hello@helloreverb.com</a></div>
+    <div class="app-desc">Version: 1.0</div>
+    <div class="app-desc">BasePath:/Franklin098/openapicourse/1.0</div>
+    <div class="license-info">All rights reserved</div>
+    <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
+  <h2>Access</h2>
+    <ol>
+      <li>HTTP Basic Authentication</li>
+      <li></li>
+    </ol>
+
+  <h2><a name="__Methods">Methods</a></h2>
+  [ Jump to <a href="#__Models">Models</a> ]
+
+  <h3>Table of Contents </h3>
+  <div class="method-summary"></div>
+  <h4><a href="#Beers">Beers</a></h4>
+  <ul>
+  <li><a href="#deleteBeerByIdV1"><code><span class="http-method">delete</span> /v1/beers/{beerId}</code></a></li>
+  <li><a href="#getBeerByIdV1"><code><span class="http-method">get</span> /v1/beers/{beerId}</code></a></li>
+  <li><a href="#listBeersV1"><code><span class="http-method">get</span> /v1/beers</code></a></li>
+  <li><a href="#updateBeerByIdV1"><code><span class="http-method">put</span> /v1/beers/{beerId}</code></a></li>
+  <li><a href="#v1BeersPost"><code><span class="http-method">post</span> /v1/beers</code></a></li>
+  </ul>
+  <h4><a href="#Customers">Customers</a></h4>
+  <ul>
+  <li><a href="#deleteCustomerByIdV1"><code><span class="http-method">delete</span> /v1/customers/{customerId}</code></a></li>
+  <li><a href="#getCustomerByIdV1"><code><span class="http-method">get</span> /v1/customers/{customerId}</code></a></li>
+  <li><a href="#listCustomersV1"><code><span class="http-method">get</span> /v1/customers</code></a></li>
+  <li><a href="#updateCustomerByIdV1"><code><span class="http-method">put</span> /v1/customers/{customerId}</code></a></li>
+  <li><a href="#v1CustomersPost"><code><span class="http-method">post</span> /v1/customers</code></a></li>
+  </ul>
+  <h4><a href="#OrderService">OrderService</a></h4>
+  <ul>
+  <li><a href="#v1CustomersCustomerIdOrdersPost"><code><span class="http-method">post</span> /v1/customers/{customerId}/orders</code></a></li>
+  </ul>
+
+  <h1><a name="Beers">Beers</a></h1>
+  <div class="method"><a name="deleteBeerByIdV1"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="delete"><code class="huge"><span class="http-method">delete</span> /v1/beers/{beerId}</code></pre></div>
+    <div class="method-summary">Delete Beer by Id (<span class="nickname">deleteBeerByIdV1</span>)</div>
+    <div class="method-notes">Delete a single <strong>Beer</strong> by its Id value.</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">beerId (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Beer Id format: uuid</div>    </div>  <!-- field-items -->
+
+
+
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Beer Deleted
+        <a href="#"></a>
+    <h4 class="field-label">404</h4>
+    Beer not found
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="getBeerByIdV1"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /v1/beers/{beerId}</code></pre></div>
+    <div class="method-summary">Get Beer by Id (<span class="nickname">getBeerByIdV1</span>)</div>
+    <div class="method-notes">Get a single <strong>beer</strong> by its Id value.</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">beerId (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Beer Id format: uuid</div>    </div>  <!-- field-items -->
+
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#Beer">Beer</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "quantity" : 28,
+  "price" : 12.45,
+  "name" : "amazing beer",
+  "bewery" : {
+    "name" : "Hainiken",
+    "location" : "Germany"
+  },
+  "style" : "IPA",
+  "id" : "046b6c7f-0b8a-43b9-b35d-6489e6daee91"
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Found Beer
+        <a href="#Beer">Beer</a>
+    <h4 class="field-label">404</h4>
+    Not found
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="listBeersV1"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /v1/beers</code></pre></div>
+    <div class="method-summary">List Beers (<span class="nickname">listBeersV1</span>)</div>
+    <div class="method-notes">Get a list of beers in the system</div>
+
+
+
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">pageNumber (optional)</div>
+      
+            <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Page Number default: 1 format: int32</div>      <div class="param">pageSize (optional)</div>
+      
+            <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Page Size default: 25 format: int32</div>    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#BeerPagedList">BeerPagedList</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "content" : [ {
+    "quantity" : 28,
+    "price" : 12.45,
+    "name" : "amazing beer",
+    "bewery" : {
+      "name" : "Hainiken",
+      "location" : "Germany"
+    },
+    "style" : "IPA",
+    "id" : "046b6c7f-0b8a-43b9-b35d-6489e6daee91"
+  }, {
+    "quantity" : 28,
+    "price" : 12.45,
+    "name" : "amazing beer",
+    "bewery" : {
+      "name" : "Hainiken",
+      "location" : "Germany"
+    },
+    "style" : "IPA",
+    "id" : "046b6c7f-0b8a-43b9-b35d-6489e6daee91"
+  }, {
+    "quantity" : 28,
+    "price" : 12.45,
+    "name" : "amazing beer",
+    "bewery" : {
+      "name" : "Hainiken",
+      "location" : "Germany"
+    },
+    "style" : "IPA",
+    "id" : "046b6c7f-0b8a-43b9-b35d-6489e6daee91"
+  }, {
+    "quantity" : 28,
+    "price" : 12.45,
+    "name" : "amazing beer",
+    "bewery" : {
+      "name" : "Hainiken",
+      "location" : "Germany"
+    },
+    "style" : "IPA",
+    "id" : "046b6c7f-0b8a-43b9-b35d-6489e6daee91"
+  }, {
+    "quantity" : 28,
+    "price" : 12.45,
+    "name" : "amazing beer",
+    "bewery" : {
+      "name" : "Hainiken",
+      "location" : "Germany"
+    },
+    "style" : "IPA",
+    "id" : "046b6c7f-0b8a-43b9-b35d-6489e6daee91"
+  }, {
+    "quantity" : 28,
+    "price" : 12.45,
+    "name" : "amazing beer",
+    "bewery" : {
+      "name" : "Hainiken",
+      "location" : "Germany"
+    },
+    "style" : "IPA",
+    "id" : "046b6c7f-0b8a-43b9-b35d-6489e6daee91"
+  }, {
+    "quantity" : 28,
+    "price" : 12.45,
+    "name" : "amazing beer",
+    "bewery" : {
+      "name" : "Hainiken",
+      "location" : "Germany"
+    },
+    "style" : "IPA",
+    "id" : "046b6c7f-0b8a-43b9-b35d-6489e6daee91"
+  }, {
+    "quantity" : 28,
+    "price" : 12.45,
+    "name" : "amazing beer",
+    "bewery" : {
+      "name" : "Hainiken",
+      "location" : "Germany"
+    },
+    "style" : "IPA",
+    "id" : "046b6c7f-0b8a-43b9-b35d-6489e6daee91"
+  }, {
+    "quantity" : 28,
+    "price" : 12.45,
+    "name" : "amazing beer",
+    "bewery" : {
+      "name" : "Hainiken",
+      "location" : "Germany"
+    },
+    "style" : "IPA",
+    "id" : "046b6c7f-0b8a-43b9-b35d-6489e6daee91"
+  }, {
+    "quantity" : 28,
+    "price" : 12.45,
+    "name" : "amazing beer",
+    "bewery" : {
+      "name" : "Hainiken",
+      "location" : "Germany"
+    },
+    "style" : "IPA",
+    "id" : "046b6c7f-0b8a-43b9-b35d-6489e6daee91"
+  } ]
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    List of Beers
+        <a href="#BeerPagedList">BeerPagedList</a>
+    <h4 class="field-label">404</h4>
+    Not Beers Found
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="updateBeerByIdV1"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="put"><code class="huge"><span class="http-method">put</span> /v1/beers/{beerId}</code></pre></div>
+    <div class="method-summary">Update a Beer by Id (<span class="nickname">updateBeerByIdV1</span>)</div>
+    <div class="method-notes">Update fields of a beer by its Id value</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">beerId (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Beer Id format: uuid</div>    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body <a href="#Beer">Beer</a> (optional)</div>
+      
+            <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash;  </div>
+                </div>  <!-- field-items -->
+
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">204</h4>
+    Beer updated
+        <a href="#"></a>
+    <h4 class="field-label">400</h4>
+    Bad request
+        <a href="#"></a>
+    <h4 class="field-label">404</h4>
+    Not found
+        <a href="#"></a>
+    <h4 class="field-label">409</h4>
+    Conflict
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="v1BeersPost"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /v1/beers</code></pre></div>
+    <div class="method-summary">New Beer (<span class="nickname">v1BeersPost</span>)</div>
+    <div class="method-notes">Create a new Beer</div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body <a href="#Beer">Beer</a> (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash;  </div>
+                </div>  <!-- field-items -->
+
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">201</h4>
+    Beer Created
+        <a href="#"></a>
+    <h4 class="field-label">400</h4>
+    Bad request
+        <a href="#"></a>
+    <h4 class="field-label">409</h4>
+    Conflict
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <h1><a name="Customers">Customers</a></h1>
+  <div class="method"><a name="deleteCustomerByIdV1"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="delete"><code class="huge"><span class="http-method">delete</span> /v1/customers/{customerId}</code></pre></div>
+    <div class="method-summary">Delete Customer by Id (<span class="nickname">deleteCustomerByIdV1</span>)</div>
+    <div class="method-notes">Delete a single <strong>Customer</strong> by its Id value.</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">customerId (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Customer Id format: uuid</div>    </div>  <!-- field-items -->
+
+
+
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Customer Deleted
+        <a href="#"></a>
+    <h4 class="field-label">404</h4>
+    Customer not found
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="getCustomerByIdV1"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /v1/customers/{customerId}</code></pre></div>
+    <div class="method-summary">Get Customer by Id (<span class="nickname">getCustomerByIdV1</span>)</div>
+    <div class="method-notes">Get a single <strong>Customer</strong> by its Id value.</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">customerId (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Customer Id format: uuid</div>    </div>  <!-- field-items -->
+
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#Customer">Customer</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "firstName" : "Jhon",
+  "lastName" : "Smith",
+  "address" : {
+    "zipCode" : "33701",
+    "city" : "St pete",
+    "state" : "AL",
+    "line1" : "123 main"
+  },
+  "id" : "046b6c7f-0b8a-43b9-b35d-6489e6daee91"
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Found Customer
+        <a href="#Customer">Customer</a>
+    <h4 class="field-label">404</h4>
+    Not found
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="listCustomersV1"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /v1/customers</code></pre></div>
+    <div class="method-summary">List Customers (<span class="nickname">listCustomersV1</span>)</div>
+    <div class="method-notes">Get a list of customers in the system</div>
+
+
+
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">pageNumber (optional)</div>
+      
+            <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Page Number default: 1 format: int32</div>      <div class="param">pageSize (optional)</div>
+      
+            <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Page Size default: 25 format: int32</div>    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#CustomerPagedList">CustomerPagedList</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "content" : [ {
+    "firstName" : "Jhon",
+    "lastName" : "Smith",
+    "address" : {
+      "zipCode" : "33701",
+      "city" : "St pete",
+      "state" : "AL",
+      "line1" : "123 main"
+    },
+    "id" : "046b6c7f-0b8a-43b9-b35d-6489e6daee91"
+  }, {
+    "firstName" : "Jhon",
+    "lastName" : "Smith",
+    "address" : {
+      "zipCode" : "33701",
+      "city" : "St pete",
+      "state" : "AL",
+      "line1" : "123 main"
+    },
+    "id" : "046b6c7f-0b8a-43b9-b35d-6489e6daee91"
+  } ]
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    List of Customers
+        <a href="#CustomerPagedList">CustomerPagedList</a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="updateCustomerByIdV1"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="put"><code class="huge"><span class="http-method">put</span> /v1/customers/{customerId}</code></pre></div>
+    <div class="method-summary">Update Customer (<span class="nickname">updateCustomerByIdV1</span>)</div>
+    <div class="method-notes">Update a customer by its Id value</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">customerId (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Customer Id format: uuid</div>    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body <a href="#Customer">Customer</a> (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash;  </div>
+                </div>  <!-- field-items -->
+
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">204</h4>
+    Customer updated
+        <a href="#"></a>
+    <h4 class="field-label">400</h4>
+    Bad request
+        <a href="#"></a>
+    <h4 class="field-label">404</h4>
+    Not found
+        <a href="#"></a>
+    <h4 class="field-label">409</h4>
+    Conflict
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="v1CustomersPost"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /v1/customers</code></pre></div>
+    <div class="method-summary">New Customer (<span class="nickname">v1CustomersPost</span>)</div>
+    <div class="method-notes">Create a new customer</div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body <a href="#Customer">Customer</a> (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash;  </div>
+                </div>  <!-- field-items -->
+
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">201</h4>
+    Customer Created
+        <a href="#"></a>
+    <h4 class="field-label">400</h4>
+    Bad Request
+        <a href="#"></a>
+    <h4 class="field-label">409</h4>
+    Conflict
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <h1><a name="OrderService">OrderService</a></h1>
+  <div class="method"><a name="v1CustomersCustomerIdOrdersPost"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /v1/customers/{customerId}/orders</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">v1CustomersCustomerIdOrdersPost</span>)</div>
+    <div class="method-notes">Place Order</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">customerId (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Customer Id format: uuid</div>    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body <a href="#BeerOrder">BeerOrder</a> (optional)</div>
+      
+            <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash;  </div>
+                </div>  <!-- field-items -->
+
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">201</h4>
+    Order Created
+        <a href="#"></a>
+    <h4 class="field-label">400</h4>
+    Bad Request
+        <a href="#"></a>
+    <h4 class="field-label">404</h4>
+    Not Found
+        <a href="#"></a>
+    <h4 class="field-label">409</h4>
+    Conflict
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+
+  <h2><a name="__Models">Models</a></h2>
+  [ Jump to <a href="#__Methods">Methods</a> ]
+
+  <h3>Table of Contents</h3>
+  <ol>
+    <li><a href="#Address"><code>Address</code></a></li>
+    <li><a href="#Beer"><code>Beer</code></a></li>
+    <li><a href="#BeerList"><code>BeerList</code></a></li>
+    <li><a href="#BeerOrder"><code>BeerOrder</code></a></li>
+    <li><a href="#BeerOrderLine"><code>BeerOrderLine</code></a></li>
+    <li><a href="#BeerPagedList"><code>BeerPagedList</code></a></li>
+    <li><a href="#Bewery"><code>Bewery</code></a></li>
+    <li><a href="#Customer"><code>Customer</code></a></li>
+    <li><a href="#CustomerList"><code>CustomerList</code></a></li>
+    <li><a href="#CustomerPagedList"><code>CustomerPagedList</code></a></li>
+    <li><a href="#PagedResponse"><code>PagedResponse</code></a></li>
+    <li><a href="#PagedResponse_pageable"><code>PagedResponse_pageable</code></a></li>
+    <li><a href="#PagedResponse_pageable_sort"><code>PagedResponse_pageable_sort</code></a></li>
+  </ol>
+
+  <div class="model">
+    <h3><a name="Address"><code>Address</code></a> <a class="up" href="#__Models">Up</a></h3>
+    
+    <div class="field-items">
+      <div class="param">line1 (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+          <div class="param-desc"><span class="param-type">example: 123 main</span></div>
+<div class="param">city (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+          <div class="param-desc"><span class="param-type">example: St pete</span></div>
+<div class="param">state (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> 2 letter state code </div>
+        <div class="param-enum-header">Enum:</div>
+        <div class="param-enum">AL</div><div class="param-enum">AK</div><div class="param-enum">AZ</div><div class="param-enum">AR</div><div class="param-enum">CA</div>
+<div class="param">zipCode (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+          <div class="param-desc"><span class="param-type">example: 33701</span></div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="Beer"><code>Beer</code></a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'>beer object</div>
+    <div class="field-items">
+      <div class="param">id (optional)</div><div class="param-desc"><span class="param-type"><a href="#UUID">UUID</a></span>  format: uuid</div>
+<div class="param">name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+          <div class="param-desc"><span class="param-type">example: amazing beer</span></div>
+<div class="param">style (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+        <div class="param-enum-header">Enum:</div>
+        <div class="param-enum">ALE</div><div class="param-enum">PALE_ALE</div><div class="param-enum">IPA</div><div class="param-enum">WHEAT</div><div class="param-enum">LARGER</div>
+          <div class="param-desc"><span class="param-type">example: IPA</span></div>
+<div class="param">price (optional)</div><div class="param-desc"><span class="param-type"><a href="#float">Float</a></span>  format: float</div>
+          <div class="param-desc"><span class="param-type">example: 12.45</span></div>
+<div class="param">quantity (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
+          <div class="param-desc"><span class="param-type">example: 28</span></div>
+<div class="param">bewery (optional)</div><div class="param-desc"><span class="param-type"><a href="#Bewery">Bewery</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="BeerList"><code>BeerList</code></a> <a class="up" href="#__Models">Up</a></h3>
+    
+    <div class="field-items">
+          </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="BeerOrder"><code>BeerOrder</code></a> <a class="up" href="#__Models">Up</a></h3>
+    
+    <div class="field-items">
+      <div class="param">id (optional)</div><div class="param-desc"><span class="param-type"><a href="#UUID">UUID</a></span>  format: uuid</div>
+<div class="param">customerId </div><div class="param-desc"><span class="param-type"><a href="#UUID">UUID</a></span>  format: uuid</div>
+<div class="param">customerRef (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">beerOrderLines (optional)</div><div class="param-desc"><span class="param-type"><a href="#BeerOrderLine">array[BeerOrderLine]</a></span>  </div>
+<div class="param">orderStatusCallbackUrl (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  format: uri</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="BeerOrderLine"><code>BeerOrderLine</code></a> <a class="up" href="#__Models">Up</a></h3>
+    
+    <div class="field-items">
+      <div class="param">id (optional)</div><div class="param-desc"><span class="param-type"><a href="#UUID">UUID</a></span>  format: uuid</div>
+<div class="param">beerid (optional)</div><div class="param-desc"><span class="param-type"><a href="#UUID">UUID</a></span>  format: uuid</div>
+<div class="param">upc </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="BeerPagedList"><code>BeerPagedList</code></a> <a class="up" href="#__Models">Up</a></h3>
+    
+    <div class="field-items">
+      <div class="param">pageable (optional)</div><div class="param-desc"><span class="param-type"><a href="#PagedResponse_pageable">PagedResponse_pageable</a></span>  </div>
+<div class="param">totalPages (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
+<div class="param">last (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span>  </div>
+<div class="param">totalElements (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
+<div class="param">size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
+<div class="param">number (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: inte2</div>
+<div class="param">content (optional)</div><div class="param-desc"><span class="param-type"><a href="#BeerList">BeerList</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="Bewery"><code>Bewery</code></a> <a class="up" href="#__Models">Up</a></h3>
+    
+    <div class="field-items">
+      <div class="param">name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+          <div class="param-desc"><span class="param-type">example: Hainiken</span></div>
+<div class="param">location (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+          <div class="param-desc"><span class="param-type">example: Germany</span></div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="Customer"><code>Customer</code></a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'>customer object</div>
+    <div class="field-items">
+      <div class="param">id (optional)</div><div class="param-desc"><span class="param-type"><a href="#UUID">UUID</a></span>  format: uuid</div>
+<div class="param">firstName (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+          <div class="param-desc"><span class="param-type">example: Jhon</span></div>
+<div class="param">lastName (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+          <div class="param-desc"><span class="param-type">example: Smith</span></div>
+<div class="param">address (optional)</div><div class="param-desc"><span class="param-type"><a href="#Address">Address</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="CustomerList"><code>CustomerList</code></a> <a class="up" href="#__Models">Up</a></h3>
+    
+    <div class="field-items">
+          </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="CustomerPagedList"><code>CustomerPagedList</code></a> <a class="up" href="#__Models">Up</a></h3>
+    
+    <div class="field-items">
+      <div class="param">pageable (optional)</div><div class="param-desc"><span class="param-type"><a href="#PagedResponse_pageable">PagedResponse_pageable</a></span>  </div>
+<div class="param">totalPages (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
+<div class="param">last (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span>  </div>
+<div class="param">totalElements (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
+<div class="param">size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
+<div class="param">number (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: inte2</div>
+<div class="param">content (optional)</div><div class="param-desc"><span class="param-type"><a href="#CustomerList">CustomerList</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="PagedResponse"><code>PagedResponse</code></a> <a class="up" href="#__Models">Up</a></h3>
+    
+    <div class="field-items">
+      <div class="param">pageable (optional)</div><div class="param-desc"><span class="param-type"><a href="#PagedResponse_pageable">PagedResponse_pageable</a></span>  </div>
+<div class="param">totalPages (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
+<div class="param">last (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span>  </div>
+<div class="param">totalElements (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
+<div class="param">size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
+<div class="param">number (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: inte2</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="PagedResponse_pageable"><code>PagedResponse_pageable</code></a> <a class="up" href="#__Models">Up</a></h3>
+    
+    <div class="field-items">
+      <div class="param">sort (optional)</div><div class="param-desc"><span class="param-type"><a href="#PagedResponse_pageable_sort">PagedResponse_pageable_sort</a></span>  </div>
+<div class="param">offset (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
+<div class="param">pageNumber (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
+<div class="param">pageSize (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
+<div class="param">paged (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span>  </div>
+<div class="param">unpaged (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="PagedResponse_pageable_sort"><code>PagedResponse_pageable_sort</code></a> <a class="up" href="#__Models">Up</a></h3>
+    
+    <div class="field-items">
+      <div class="param">sorted (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span>  </div>
+<div class="param">unsorted (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  </body>
+</html>
