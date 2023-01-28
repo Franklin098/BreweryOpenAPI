@@ -1,0 +1,746 @@
+openapi: 3.0.2
+info:
+  title: Brewery Project
+  description: Specification for OpenAPI Course
+  contact:
+    name: Franklin Velasquez
+    url: https://github.com/Franklin098
+  version: "1.0"
+servers:
+- url: https://virtserver.swaggerhub.com/Franklin098/openapicourse/1.0
+  description: SwaggerHub API Auto Mocking
+- url: https://dev.example.com
+  description: Dev server
+- url: https://qa.example.com
+  description: QA server
+- url: https://prod.example.com
+  description: Prod Server
+security:
+- BasicAuth: []
+- JwtAuthToken: []
+paths:
+  /v1/customers:
+    get:
+      tags:
+      - Customers
+      summary: List Customers
+      description: Get a list of customers in the system
+      operationId: listCustomersV1
+      parameters:
+      - name: pageNumber
+        in: query
+        description: Page Number
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int32
+          default: 1
+      - name: pageSize
+        in: query
+        description: Page Size
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int32
+          default: 25
+      responses:
+        "200":
+          description: List of Customers
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerPagedList'
+      security: []
+      x-swagger-router-controller: Customers
+    post:
+      tags:
+      - Customers
+      summary: New Customer
+      description: Create a new customer
+      operationId: v1CustomersPOST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customer'
+        required: true
+      responses:
+        "201":
+          description: Customer Created
+          headers:
+            Location:
+              description: Location of the created customer
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uri
+                example: "http://example.com/v1/customers/{assignedIdValue}"
+        "400":
+          description: Bad Request
+        "409":
+          description: Conflict
+      x-swagger-router-controller: Customers
+  /v1/customers/{customerId}:
+    get:
+      tags:
+      - Customers
+      summary: Get Customer by Id
+      description: Get a single **Customer** by its Id value.
+      operationId: getCustomerByIdV1
+      parameters:
+      - name: customerId
+        in: path
+        description: Customer Id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: Found Customer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        "404":
+          description: Not found
+      x-swagger-router-controller: Customers
+    put:
+      tags:
+      - Customers
+      summary: Update Customer
+      description: Update a customer by its Id value
+      operationId: updateCustomerByIdV1
+      parameters:
+      - name: customerId
+        in: path
+        description: Customer Id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customer'
+        required: true
+      responses:
+        "204":
+          description: Customer updated
+        "400":
+          description: Bad request
+        "404":
+          description: Not found
+        "409":
+          description: Conflict
+      x-swagger-router-controller: Customers
+    delete:
+      tags:
+      - Customers
+      summary: Delete Customer by Id
+      description: Delete a single **Customer** by its Id value.
+      operationId: deleteCustomerByIdV1
+      parameters:
+      - name: customerId
+        in: path
+        description: Customer Id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: Customer Deleted
+        "404":
+          description: Customer not found
+      x-swagger-router-controller: Customers
+  /v1/customers/{customerId}/orders:
+    post:
+      tags:
+      - Order Service
+      description: Place Order
+      operationId: v1CustomersCustomerIdOrdersPOST
+      parameters:
+      - name: customerId
+        in: path
+        description: Customer Id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BeerOrder'
+        required: false
+      responses:
+        "201":
+          description: Order Created
+          headers:
+            Location:
+              description: Reference to created Order
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uri
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+        "409":
+          description: Conflict
+      callbacks:
+        orderStatusChange:
+          ${request.body#/orderStatusCallbackUrl}:
+            description: Webhook for order status change notifications
+            post:
+              requestBody:
+                content:
+                  application/json:
+                    schema:
+                      type: object
+                      properties:
+                        orderId:
+                          type: string
+                          format: uuid
+                        orderStatus:
+                          type: string
+              responses:
+                "200":
+                  description: Okay
+      x-swagger-router-controller: OrderService
+  /v1/beers:
+    get:
+      tags:
+      - Beers
+      summary: List Beers
+      description: Get a list of beers in the system
+      operationId: listBeersV1
+      parameters:
+      - name: pageNumber
+        in: query
+        description: Page Number
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int32
+          default: 1
+      - name: pageSize
+        in: query
+        description: Page Size
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int32
+          default: 25
+      responses:
+        "200":
+          description: List of Beers
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BeerPagedList'
+        "404":
+          description: Not Beers Found
+      x-swagger-router-controller: Beers
+    post:
+      tags:
+      - Beers
+      summary: New Beer
+      description: Create a new Beer
+      operationId: v1BeersPOST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Beer'
+        required: true
+      responses:
+        "201":
+          description: Beer Created
+          headers:
+            Location:
+              description: Location of the created beer
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: uri
+                example: "http://example.com/v1/beers/{assignedIdValue}"
+        "400":
+          description: Bad request
+        "409":
+          description: Conflict
+      x-swagger-router-controller: Beers
+  /v1/beers/{beerId}:
+    get:
+      tags:
+      - Beers
+      summary: Get Beer by Id
+      description: Get a single **beer** by its Id value.
+      operationId: getBeerByIdV1
+      parameters:
+      - name: beerId
+        in: path
+        description: Beer Id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: Found Beer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Beer'
+        "404":
+          description: Not found
+      x-swagger-router-controller: Beers
+    put:
+      tags:
+      - Beers
+      summary: Update a Beer by Id
+      description: Update fields of a beer by its Id value
+      operationId: updateBeerByIdV1
+      parameters:
+      - name: beerId
+        in: path
+        description: Beer Id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Beer'
+      responses:
+        "204":
+          description: Beer updated
+        "400":
+          description: Bad request
+        "404":
+          description: Not found
+        "409":
+          description: Conflict
+      x-swagger-router-controller: Beers
+    delete:
+      tags:
+      - Beers
+      summary: Delete Beer by Id
+      description: Delete a single **Beer** by its Id value.
+      operationId: deleteBeerByIdV1
+      parameters:
+      - name: beerId
+        in: path
+        description: Beer Id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: Beer Deleted
+        "404":
+          description: Beer not found
+      x-swagger-router-controller: Beers
+components:
+  schemas:
+    Address:
+      type: object
+      properties:
+        line1:
+          type: string
+          example: 123 main
+        city:
+          type: string
+          example: St pete
+        state:
+          maxLength: 2
+          minLength: 2
+          type: string
+          description: 2 letter state code
+          enum:
+          - AL
+          - AK
+          - AZ
+          - AR
+          - CA
+        zipCode:
+          type: string
+          example: "33701"
+      example:
+        zipCode: "33701"
+        city: St pete
+        state: AL
+        line1: 123 main
+    Customer:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        firstName:
+          maxLength: 100
+          minLength: 2
+          type: string
+          example: Jhon
+        lastName:
+          maxLength: 100
+          minLength: 2
+          type: string
+          example: Smith
+        address:
+          $ref: '#/components/schemas/Address'
+      description: customer object
+      example:
+        firstName: Jhon
+        lastName: Smith
+        address:
+          zipCode: "33701"
+          city: St pete
+          state: AL
+          line1: 123 main
+        id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+    CustomerList:
+      maximum: 100
+      minItems: 1
+      type: array
+      items:
+        $ref: '#/components/schemas/Customer'
+    CustomerPagedList:
+      type: object
+      properties:
+        content:
+          $ref: '#/components/schemas/CustomerList'
+      example:
+        content:
+        - firstName: Jhon
+          lastName: Smith
+          address:
+            zipCode: "33701"
+            city: St pete
+            state: AL
+            line1: 123 main
+          id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        - firstName: Jhon
+          lastName: Smith
+          address:
+            zipCode: "33701"
+            city: St pete
+            state: AL
+            line1: 123 main
+          id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+      allOf:
+      - $ref: '#/components/schemas/PagedResponse'
+    Bewery:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Hainiken
+        location:
+          type: string
+          example: Germany
+      example:
+        name: Hainiken
+        location: Germany
+    Beer:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          maxLength: 200
+          type: string
+          example: amazing beer
+        style:
+          type: string
+          example: IPA
+          enum:
+          - ALE
+          - PALE_ALE
+          - IPA
+          - WHEAT
+          - LARGER
+        price:
+          type: number
+          format: float
+          example: 12.45
+        quantity:
+          type: integer
+          format: int32
+          example: 28
+        bewery:
+          $ref: '#/components/schemas/Bewery'
+      description: beer object
+      example:
+        quantity: 28
+        price: 12.45
+        name: amazing beer
+        bewery:
+          name: Hainiken
+          location: Germany
+        style: IPA
+        id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+    BeerList:
+      maxItems: 100
+      minItems: 0
+      type: array
+      items:
+        $ref: '#/components/schemas/Beer'
+    BeerPagedList:
+      type: object
+      properties:
+        content:
+          $ref: '#/components/schemas/BeerList'
+      example:
+        content:
+        - quantity: 28
+          price: 12.45
+          name: amazing beer
+          bewery:
+            name: Hainiken
+            location: Germany
+          style: IPA
+          id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        - quantity: 28
+          price: 12.45
+          name: amazing beer
+          bewery:
+            name: Hainiken
+            location: Germany
+          style: IPA
+          id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        - quantity: 28
+          price: 12.45
+          name: amazing beer
+          bewery:
+            name: Hainiken
+            location: Germany
+          style: IPA
+          id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        - quantity: 28
+          price: 12.45
+          name: amazing beer
+          bewery:
+            name: Hainiken
+            location: Germany
+          style: IPA
+          id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        - quantity: 28
+          price: 12.45
+          name: amazing beer
+          bewery:
+            name: Hainiken
+            location: Germany
+          style: IPA
+          id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        - quantity: 28
+          price: 12.45
+          name: amazing beer
+          bewery:
+            name: Hainiken
+            location: Germany
+          style: IPA
+          id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        - quantity: 28
+          price: 12.45
+          name: amazing beer
+          bewery:
+            name: Hainiken
+            location: Germany
+          style: IPA
+          id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        - quantity: 28
+          price: 12.45
+          name: amazing beer
+          bewery:
+            name: Hainiken
+            location: Germany
+          style: IPA
+          id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        - quantity: 28
+          price: 12.45
+          name: amazing beer
+          bewery:
+            name: Hainiken
+            location: Germany
+          style: IPA
+          id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        - quantity: 28
+          price: 12.45
+          name: amazing beer
+          bewery:
+            name: Hainiken
+            location: Germany
+          style: IPA
+          id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+      allOf:
+      - $ref: '#/components/schemas/PagedResponse'
+    PagedResponse:
+      type: object
+      properties:
+        pageable:
+          $ref: '#/components/schemas/PagedResponse_pageable'
+        totalPages:
+          type: integer
+          format: int32
+        last:
+          type: boolean
+        totalElements:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        number:
+          type: integer
+          format: inte2
+    BeerOrder:
+      required:
+      - customerId
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          nullable: true
+          readOnly: true
+        customerId:
+          type: string
+          format: uuid
+        customerRef:
+          type: string
+          nullable: true
+        beerOrderLines:
+          type: array
+          items:
+            $ref: '#/components/schemas/BeerOrderLine'
+        orderStatusCallbackUrl:
+          type: string
+          format: uri
+    BeerOrderLine:
+      required:
+      - orderQuantity
+      - upc
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          nullable: true
+          readOnly: true
+        beerid:
+          type: string
+          format: uuid
+          readOnly: true
+        upc:
+          type: string
+    PagedResponse_pageable_sort:
+      type: object
+      properties:
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
+    PagedResponse_pageable:
+      type: object
+      properties:
+        sort:
+          $ref: '#/components/schemas/PagedResponse_pageable_sort'
+        offset:
+          type: integer
+          format: int32
+        pageNumber:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        paged:
+          type: boolean
+        unpaged:
+          type: boolean
+  parameters:
+    PageNumberParameter:
+      name: pageNumber
+      in: query
+      description: Page Number
+      required: false
+      style: form
+      explode: true
+      schema:
+        type: integer
+        format: int32
+        default: 1
+    PageSizeParameter:
+      name: pageSize
+      in: query
+      description: Page Size
+      required: false
+      style: form
+      explode: true
+      schema:
+        type: integer
+        format: int32
+        default: 25
+    CustomerIdPathParam:
+      name: customerId
+      in: path
+      description: Customer Id
+      required: true
+      style: simple
+      explode: false
+      schema:
+        type: string
+        format: uuid
+    BeerIdPathParam:
+      name: beerId
+      in: path
+      description: Beer Id
+      required: true
+      style: simple
+      explode: false
+      schema:
+        type: string
+        format: uuid
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
+    JwtAuthToken:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
