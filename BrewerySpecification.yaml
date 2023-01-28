@@ -1,0 +1,497 @@
+openapi: 3.0.2
+info:
+  version: "1.0"
+  title: Brewery Project
+  description: "Specification for OpenAPI Course"
+  contact:
+    name: Franklin Velasquez
+    url: https://github.com/Franklin098
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/Franklin098/openapicourse/1.0
+  - url: https://dev.example.com
+    description: Dev server
+  - url: https://qa.example.com
+    description: QA server
+  - url: https://prod.example.com
+    description: Prod Server
+
+paths:
+  /v1/customers:
+    get:
+      summary: List Customers
+      description: Get a list of customers in the system
+      tags:
+        - Customers # to group in the UI
+      operationId: listCustomersV1
+      parameters:
+        - $ref: "#/components/parameters/PageNumberParameter"
+        - $ref: "#/components/parameters/PageSizeParameter"
+      responses:
+        "200":
+          description: List of Customers
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CustomerPagedList"
+      security: []
+
+    post:
+      summary: New Customer
+      description: Create a new customer
+      tags:
+        - Customers
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Customer"
+      responses:
+        "201":
+          description: Customer Created
+          headers:
+            Location:
+              description: Location of the created customer
+              schema:
+                type: string
+                format: uri
+                example: http://example.com/v1/customers/{assignedIdValue}
+        "400":
+          description: Bad Request # if we dont provide all the params
+        "409":
+          description: Conflict
+
+  /v1/customers/{customerId}:
+    get:
+      summary: Get Customer by Id
+      description: Get a single **Customer** by its Id value.
+      tags:
+        - Customers
+      operationId: getCustomerByIdV1
+      parameters:
+        - $ref: "#/components/parameters/CustomerIdPathParam"
+      responses:
+        "200":
+          description: Found Customer
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Customer"
+        "404":
+          description: Not found
+    put:
+      summary: Update Customer
+      description: Update a customer by its Id value
+      tags:
+        - Customers
+      operationId: updateCustomerByIdV1
+      parameters:
+        - $ref: "#/components/parameters/CustomerIdPathParam"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Customer"
+      responses:
+        "204":
+          description: Customer updated
+        "400":
+          description: Bad request
+        "404":
+          description: Not found
+        "409":
+          description: Conflict
+    delete:
+      summary: Delete Customer by Id
+      description: Delete a single **Customer** by its Id value.
+      tags:
+        - Customers
+      operationId: deleteCustomerByIdV1
+      parameters:
+        - $ref: "#/components/parameters/CustomerIdPathParam"
+      responses:
+        "200":
+          description: Customer Deleted
+        "404":
+          description: Customer not found #if you try to delete more than once
+
+  /v1/customers/{customerId}/orders:
+    parameters:
+      - $ref: "#/components/parameters/CustomerIdPathParam"
+    post:
+      description: Place Order
+      tags:
+        - Order Service
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BeerOrder"
+      responses:
+        "201":
+          description: Order Created
+          headers:
+            Location:
+              description: Reference to created Order
+              schema:
+                type: string
+                format: uri
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+        "409":
+          description: Conflict
+      callbacks: #define webhooks so the client can listen to status changes
+        orderStatusChange:
+          "${request.body#/orderStatusCallbackUrl}":
+            description: Webhook for order status change notifications
+            post:
+              requestBody:
+                content:
+                  application/json:
+                    schema:
+                      type: object
+                      properties:
+                        orderId:
+                          type: string
+                          format: uuid
+                        orderStatus:
+                          type: string
+              responses:
+                "200":
+                  description: Okay
+
+  /v1/beers:
+    get:
+      summary: List Beers
+      description: Get a list of beers in the system
+      tags:
+        - Beers #to group in the UI
+      operationId: listBeersV1
+      parameters:
+        - $ref: "#/components/parameters/PageNumberParameter"
+        - $ref: "#/components/parameters/PageSizeParameter"
+      responses:
+        "200":
+          description: List of Beers
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BeerPagedList"
+
+        "404":
+          description: Not Beers Found
+    post:
+      summary: New Beer
+      description: Create a new Beer
+      tags:
+        - Beers
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Beer"
+      responses:
+        "201":
+          description: Beer Created
+          headers:
+            Location:
+              description: Location of the created beer
+              schema:
+                type: string
+                format: uri
+                example: http://example.com/v1/beers/{assignedIdValue}
+        "400":
+          description: Bad request
+        "409":
+          description: Conflict
+
+  /v1/beers/{beerId}:
+    get:
+      summary: Get Beer by Id
+      description: Get a single **beer** by its Id value.
+      tags:
+        - Beers
+      operationId: getBeerByIdV1
+      parameters:
+        - $ref: "#/components/parameters/BeerIdPathParam"
+      responses:
+        "200":
+          description: Found Beer
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Beer"
+        "404":
+          description: Not found
+    put:
+      summary: Update a Beer by Id
+      description: Update fields of a beer by its Id value
+      tags:
+        - Beers
+      operationId: updateBeerByIdV1
+      parameters:
+        - $ref: "#/components/parameters/BeerIdPathParam"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Beer"
+      responses:
+        "204":
+          description: Beer updated
+        "400":
+          description: Bad request
+        "404":
+          description: Not found
+        "409":
+          description: Conflict
+    delete:
+      summary: Delete Beer by Id
+      description: Delete a single **Beer** by its Id value.
+      tags:
+        - Beers
+      operationId: deleteBeerByIdV1
+      parameters:
+        - $ref: "#/components/parameters/BeerIdPathParam"
+      responses:
+        "200":
+          description: Beer Deleted
+        "404":
+          description: Beer not found #if you try to delete a beer more than once
+
+security:
+  - BasicAuth: []
+  - JwtAuthToken: []
+
+components:
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
+    JwtAuthToken:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  parameters:
+    PageNumberParameter:
+      name: pageNumber
+      in: query
+      description: Page Number
+      schema:
+        type: integer
+        format: int32
+        default: 1
+    PageSizeParameter:
+      name: pageSize
+      in: query
+      description: Page Size
+      required: false
+      schema:
+        type: integer
+        format: int32
+        default: 25
+    CustomerIdPathParam:
+      name: customerId
+      in: path
+      description: Customer Id
+      required: true
+      schema:
+        type: string
+        format: uuid
+    BeerIdPathParam:
+      name: beerId
+      in: path
+      description: Beer Id
+      required: true
+      schema:
+        type: string
+        format: uuid
+
+  schemas:
+    Address:
+      type: object
+      properties:
+        line1:
+          type: string
+          example: 123 main
+        city:
+          type: string
+          example: St pete
+        state:
+          type: string
+          minLength: 2
+          maxLength: 2
+          description: 2 letter state code
+          enum: [AL, AK, AZ, AR, CA]
+        zipCode:
+          type: string
+          example: 33701
+    Customer:
+      type: object
+      description: customer object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        firstName:
+          type: string
+          minLength: 2
+          maxLength: 100
+          example: Jhon
+        lastName:
+          type: string
+          minLength: 2
+          maxLength: 100
+          example: Smith
+        address:
+          $ref: "#/components/schemas/Address"
+    CustomerList:
+      type: array
+      minItems: 1
+      maximum: 100
+      items:
+        $ref: "#/components/schemas/Customer"
+    CustomerPagedList:
+      type: object
+      allOf:
+        - $ref: "#/components/schemas/PagedResponse"
+      properties:
+        content:
+          $ref: "#/components/schemas/CustomerList"
+    Bewery:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Hainiken
+        location:
+          type: string
+          example: Germany
+    Beer:
+      type: object
+      description: beer object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          maxLength: 200
+          example: amazing beer
+        style:
+          type: string
+          enum: [ALE, PALE_ALE, IPA, WHEAT, LARGER]
+          example: IPA
+        price:
+          type: number
+          format: float
+          example: 12.45
+        quantity:
+          type: integer
+          format: int32
+          example: 28
+        bewery:
+          $ref: "#/components/schemas/Bewery"
+    BeerList:
+      type: array
+      minItems: 0
+      maxItems: 100
+      items:
+        $ref: "#/components/schemas/Beer"
+    BeerPagedList:
+      type: object
+      allOf:
+        - $ref: "#/components/schemas/PagedResponse"
+      properties:
+        content:
+          $ref: "#/components/schemas/BeerList"
+    PagedResponse:
+      type: object
+      properties:
+        pageable:
+          type: object
+          properties:
+            sort:
+              type: object
+              properties:
+                sorted:
+                  type: boolean
+                unsorted:
+                  type: boolean
+            offset:
+              type: integer
+              format: int32
+            pageNumber:
+              type: integer
+              format: int32
+            pageSize:
+              type: integer
+              format: int32
+            paged:
+              type: boolean
+            unpaged:
+              type: boolean
+        totalPages:
+          type: integer
+          format: int32
+        last:
+          type: boolean
+        totalElements:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        number:
+          type: integer
+          format: inte2
+    BeerOrder:
+      type: object
+      required:
+        - customerId
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+          nullable: true
+        customerId:
+          type: string
+          format: uuid
+        customerRef:
+          type: string
+          nullable: true
+        beerOrderLines:
+          type: array
+          items:
+            $ref: "#/components/schemas/BeerOrderLine"
+        orderStatusCallbackUrl:
+          type: string
+          format: uri
+    BeerOrderLine:
+      type: object
+      required:
+        - upc
+        - orderQuantity
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+          nullable: true
+        beerid:
+          type: string
+          format: uuid
+          readOnly: true
+        upc:
+          type: string

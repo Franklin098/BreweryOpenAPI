@@ -43,3 +43,5 @@ We can define:
 - Response codes
 
 ![](./screenshots/image2.png)
+
+Go to BrewerySpecification.yaml to see the specification
