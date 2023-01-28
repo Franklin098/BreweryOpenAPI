@@ -31,7 +31,7 @@ One of the main features of OpenAPI is that we can always use **inheritance** to
 
 ## Paths
 
-In the pats section we define each of the REST operations of our service.
+In the paths section we define each of the REST operations of our service.
 
 We can define:
 
